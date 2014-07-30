@@ -8,9 +8,12 @@ module OmniAuth
 
       class AuthCallback
 
-        WS_TRUST    = 'http://schemas.xmlsoap.org/ws/2005/02/trust'
+        WS_TRUST    = 'http://docs.oasis-open.org/ws-sx/ws-trust/200512'
         WS_UTILITY  = 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd'
         WS_POLICY   = 'http://schemas.xmlsoap.org/ws/2004/09/policy'
+
+        SAML_10_ASSERTION = 'urn:oasis:names:tc:SAML:1.0:assertion'
+        WS_CLAIM = 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims'
 
         attr_accessor :options, :raw_callback, :settings
 
@@ -36,16 +39,16 @@ module OmniAuth
         def audience
           @audience ||= begin
             applies_to = REXML::XPath.first(document, '//t:RequestSecurityTokenResponse/wsp:AppliesTo', { 't' => WS_TRUST, 'wsp' => WS_POLICY })
-            REXML::XPath.first(applies_to, '//EndpointReference/Address').text
+            REXML::XPath.first(applies_to, '//wsa:EndpointReference/wsa:Address', 'wsa' => 'http://www.w3.org/2005/08/addressing').text
           end
         end
 
         def created_at
-          Time.parse(REXML::XPath.first(wstrust_lifetime, '//wsu:Created', { 'wsu' => WS_UTILITY }).text)
+          Time.parse(REXML::XPath.first(wstrust_lifetime, '//wsu:Created', 'wsu' => WS_UTILITY).text)
         end
 
         def expires_at
-          Time.parse(REXML::XPath.first(wstrust_lifetime, '//wsu:Expires', { 'wsu' => WS_UTILITY }).text)
+          Time.parse(REXML::XPath.first(wstrust_lifetime, '//wsu:Expires', 'wsu' => WS_UTILITY).text)
         end
 
 
@@ -55,18 +58,18 @@ module OmniAuth
 
         def issuer
           @issuer ||= begin
-            REXML::XPath.first(document, '//Assertion/Issuer').text
+            REXML::XPath.first(document, '//saml:Assertion', 'saml' => SAML_10_ASSERTION).attributes['Issuer']
           end
         end
 
         def claims
           @attr_statements ||= begin
-            stmt_element = REXML::XPath.first(document, '//Assertion/AttributeStatement')
+            stmt_element = REXML::XPath.first(document, '//saml:Assertion/saml:AttributeStatement', 'saml' => SAML_10_ASSERTION)
             return {} if stmt_element.nil?
 
             {}.tap do |result|
-              stmt_element.elements.each do |attr_element|
-                name  = attr_element.attributes['Name']
+              REXML::XPath.match(stmt_element, '//saml:Attribute', 'saml' => SAML_10_ASSERTION).each do |attr_element|
+                name  = attr_element.attributes['AttributeName']
 
                 if attr_element.elements.count > 1
                   value = []
