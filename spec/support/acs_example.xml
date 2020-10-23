@@ -1,4 +1,4 @@
-﻿﻿<t:RequestSecurityTokenResponse xmlns:t="http://schemas.xmlsoap.org/ws/2005/02/trust">
+﻿﻿<t:RequestSecurityTokenResponse xmlns:t="http://docs.oasis-open.org/ws-sx/ws-trust/200512">
   <t:Lifetime>
     <wsu:Created xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2012-06-29T21:07:14.766Z</wsu:Created>
     <wsu:Expires xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2012-06-29T21:17:14.766Z</wsu:Expires>
@@ -9,8 +9,7 @@
     </EndpointReference>
   </wsp:AppliesTo>
   <t:RequestedSecurityToken>
-    <Assertion ID="_fa0de02b-b5a1-49c5-a8c0-4b391295a789" IssueInstant="2012-06-29T21:07:14.782Z" Version="2.0" xmlns="urn:oasis:names:tc:SAML:2.0:assertion">
-      <Issuer>https://c4sc-identity.accesscontrol.windows.net/</Issuer>
+    <Assertion ID="_fa0de02b-b5a1-49c5-a8c0-4b391295a789" IssueInstant="2012-06-29T21:07:14.782Z" Version="1.0" xmlns="urn:oasis:names:tc:SAML:1.0:assertion" Issuer="https://c4sc-identity.accesscontrol.windows.net/">
       <ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
         <ds:SignedInfo>
           <ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
@@ -40,13 +39,13 @@
         </AudienceRestriction>
       </Conditions>
       <AttributeStatement>
-        <Attribute Name="http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress">
+        <Attribute AttributeName="http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress">
           <AttributeValue>kbeckman.c4sc@gmail.com</AttributeValue>
         </Attribute>
-        <Attribute Name="http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name">
+        <Attribute AttributeName="http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name">
           <AttributeValue>kbeckman.c4sc</AttributeValue>
         </Attribute>
-        <Attribute Name="http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider">
+        <Attribute AttributeName="http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider">
           <AttributeValue>http://identity.c4sc.com/trust/</AttributeValue>
         </Attribute>
       </AttributeStatement>
@@ -62,7 +61,7 @@
       <KeyIdentifier ValueType="http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLID">_fa0de02b-b5a1-49c5-a8c0-4b391295a789</KeyIdentifier>
     </SecurityTokenReference>
   </t:RequestedUnattachedReference>
-  <t:TokenType>urn:oasis:names:tc:SAML:2.0:assertion</t:TokenType>
+  <t:TokenType>urn:oasis:names:tc:SAML:1.0:assertion</t:TokenType>
   <t:RequestType>http://schemas.xmlsoap.org/ws/2005/02/trust/Issue</t:RequestType>
   <t:KeyType>http://schemas.xmlsoap.org/ws/2005/05/identity/NoProofKey</t:KeyType>
 </t:RequestSecurityTokenResponse>
