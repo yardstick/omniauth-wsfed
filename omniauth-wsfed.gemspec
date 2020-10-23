@@ -14,7 +14,7 @@ Gem::Specification.new do |gem|
   gem.license       = 'MIT'
 
   gem.add_runtime_dependency 'omniauth', '~> 1.2.2'
-  gem.add_runtime_dependency 'nokogiri', '~> 1.6.0'
+  gem.add_runtime_dependency 'nokogiri', '~> 1.8.2'
 
   gem.add_development_dependency 'rspec',     '>= 2.12.0'
   gem.add_development_dependency 'rake',      '>= 10.1.0'
